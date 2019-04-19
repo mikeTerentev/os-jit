@@ -51,6 +51,7 @@ int main() {
                         x = strToInt(parsedLine[2]);
                         modify(x);
                     } catch (exception &e) {
+                        cout << HELP << endl << APPINFO;
                         continue;
                     }
                 } else {
@@ -66,6 +67,7 @@ int main() {
                 cout << handler.apply(strToInt(arg));
                 return 0;
             } catch (exception &e) {
+                cout << e.what() << endl;
                 continue;
             }
         } else {
