@@ -3,7 +3,6 @@
 #include <vector>
 #include "funcHandler.h"
 #include "divMe.h"
-#include <iterator>
 
 using namespace std;
 
@@ -30,8 +29,8 @@ vector<string> split_line(const string &line) {
 
 const string APPINFO = "my-jit: ";
 
-const string HELP = R"BLOCK(exec -- execute function
-modify [value] -- changes value in function)BLOCK";
+const string HELP = R"BLOCK(run -- execute function
+run -m [value] -- modity and execute function )BLOCK";
 
 int main() {
     string line;
@@ -40,28 +39,37 @@ int main() {
     while (getline(cin, line)) {
         vector<string> parsedLine = split_line(line);
         if (parsedLine.empty()) {
-            cout << HELP<<endl;
+            cout << HELP << endl << APPINFO;
             continue;
         }
         if (parsedLine[0] == "run") {
-            if(parsedLine.size() > 1 ){
-                if(parsedLine.size() == 3 && parsedLine[1] == "-m"){
-                    modify(strToInt(parsedLine[2]));
-                } else{
-                    cout << HELP << endl;
+            if (parsedLine.size() > 1) {
+                if (parsedLine.size() == 3 && parsedLine[1] == "-m") {
+                    try {
+                        int x = 0;
+                        x = strToInt(parsedLine[2]);
+                        modify(x);
+                    } catch (exception &e) {
+                        continue;
+                    }
+                } else {
+                    cout << HELP << endl << APPINFO;
                     continue;
                 }
             }
-            int arg;
+            string arg;
             funcHandler handler(asmCode, sizeof(asmCode));
-            cout<< "Print argument: ";
+            cout << "Print argument: ";
             cin >> arg;
-            cout << handler.apply(arg);
-            return 0;
+            try {
+                cout << handler.apply(strToInt(arg));
+                return 0;
+            } catch (exception &e) {
+                continue;
+            }
         } else {
-            cout << HELP<<endl;
+            cout << HELP << endl << APPINFO;
         }
-        cout << APPINFO;
     }
     return 0;
 }
