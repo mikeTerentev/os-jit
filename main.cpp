@@ -3,6 +3,7 @@
 #include <vector>
 #include "funcHandler.h"
 #include "divMe.h"
+#include <iterator>
 
 using namespace std;
 
