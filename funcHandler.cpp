@@ -31,5 +31,11 @@ void funcHandler::modifyAccess() {
     }
 }
 int funcHandler::apply(int arg){
-    return ((int (*)(int))this->mmapedFunc)(arg);
+    if(arg == 0){
+        cerr<<"Opppsss division by zero is outlaw"<< endl;
+        return 0;
+    } else{
+        return ((int (*)(int))this->mmapedFunc)(arg);
+    }
+
 }
